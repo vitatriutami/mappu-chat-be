@@ -1,6 +1,6 @@
-# 🗺️ livemaps-chat-be
+# 🗺️ mappu-chat-be
 
-A backend service built with **Node.js** and **TypeScript**, designed for real-time chat functionality, potentially using WebSocket.
+A backend service built with **Node.js** and **TypeScript**, designed for real-time maps and chat functionality, potentially using WebSocket.
 
 ---
 
