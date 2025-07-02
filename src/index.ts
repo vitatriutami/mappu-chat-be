@@ -2,17 +2,22 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
+import dotenv from "dotenv";
+
+// Load .env config
+dotenv.config();
 
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // ganti sesuai domain Next.js kamu jika perlu
+    origin: "*", // Ganti dengan domain frontend kamu jika perlu
+    methods: ["GET", "POST"],
   },
 });
 
-const PORT = 3000;
-const DEFAULT_POSITION = { lat: -6.2, lng: 106.8 }; // Jakarta
+const PORT = process.env.PORT || 3000;
+const DEFAULT_POSITION = { lat: -6.2, lng: 106.8 };
 
 type User = {
   name: string;
@@ -20,12 +25,12 @@ type User = {
   position: { lat: number; lng: number };
 };
 
-const users = new Map<string, User>(); // socket.id -> user
+const users = new Map<string, User>();
 
+// Handle socket connections
 io.on("connection", (socket) => {
   console.log(`🔌 User connected: ${socket.id}`);
 
-  // User Join
   socket.on("join", (data: { name: string; emoji: string }) => {
     const newUser: User = {
       name: data.name,
@@ -37,7 +42,6 @@ io.on("connection", (socket) => {
     broadcastUsers();
   });
 
-  // User Move Marker
   socket.on("move", (pos: { lat: number; lng: number }) => {
     const user = users.get(socket.id);
     if (!user) return;
@@ -47,7 +51,6 @@ io.on("connection", (socket) => {
     broadcastUsers();
   });
 
-  // User Chat
   socket.on("chat", (message: string) => {
     const user = users.get(socket.id);
     if (!user) return;
@@ -59,7 +62,6 @@ io.on("connection", (socket) => {
     });
   });
 
-  // User Disconnect
   socket.on("disconnect", () => {
     users.delete(socket.id);
     console.log(`❌ User disconnected: ${socket.id}`);
@@ -72,11 +74,13 @@ function broadcastUsers() {
   io.emit("users:update", userArray);
 }
 
+// Routes
 app.use(cors());
 app.get("/", (_, res) => {
-  res.send("🗺️ Mappu-Chat backend running!");
+  res.send("🗺️ Mappu-Chat backend is running!");
 });
 
+// Start server
 server.listen(PORT, () => {
-  console.log(`🚀 Server listening on http://localhost:${PORT}`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
