@@ -1,15 +1,58 @@
-# livemaps-chat-be
+# 🗺️ livemaps-chat-be
 
-To install dependencies:
+A backend service built with **Node.js** and **TypeScript**, designed for real-time chat functionality, potentially using WebSocket.
+
+---
+
+## 📦 Installation
+
+Install dependencies:
 
 ```bash
-bun install
+npm install
 ```
 
-To run:
+---
+
+## 🚧 Development
+
+Start the development server with automatic reload (using `nodemon`):
 
 ```bash
-bun run index.ts
+npm run dev
 ```
 
-This project was created using `bun init` in bun v1.2.11. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+---
+
+## 🏗️ Build
+
+Compile TypeScript to JavaScript:
+
+```bash
+npm run build
+```
+
+Output will be placed in the `dist/` directory.
+
+---
+
+## 🚀 Start (Production)
+
+Start the compiled application:
+
+```bash
+npm start
+```
+
+---
+
+## 📌 Notes
+
+> This project was written using **TypeScript** and runs in a **Node.js** environment.  
+> For production, make sure to run `npm run build` before starting with `npm start`.
+
+---
+
+## 📡 Deployment
+
+This project is ready to be deployed on [Render](https://render.com/) using the included `.render.yaml` file. Render will handle the build and start process automatically based on the configuration.
